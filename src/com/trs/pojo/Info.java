@@ -11,13 +11,27 @@ public class Info {
 	
 		 private  int	STATISTICSID; //主键                 
 		 private  int DOCID;		  //文档主键           
-		 private  String DOCTITLE;    //文档标题           
+		 private  String DOCTITLE;    //文档标题         
 		 private  int DOCCHANNEL;     //文档所属频道     
 		 private  Date DOCPUBTIME;    //文档发布时间     
 		 private  Date DOCCLICKDATE;  //按天统计点击量  
 		 private  int DOCCLICKCOUNT;  //日期点击次数     
 		 private Date startTime;      //开始时间
 		 private Date endTime;        //结束时间
+		 private int FWCount;         //访问量
+		 private int FBCount;         //发布量
+		public int getFWCount() {
+			return FWCount;
+		}
+		public void setFWCount(int fWCount) {
+			FWCount = fWCount;
+		}
+		public int getFBCount() {
+			return FBCount;
+		}
+		public void setFBCount(int fBCount) {
+			FBCount = fBCount;
+		}
 		public Date getStartTime() {
 			return startTime;
 		}
