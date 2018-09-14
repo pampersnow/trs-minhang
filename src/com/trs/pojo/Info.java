@@ -7,8 +7,7 @@ import java.util.Date;
  *	创建日期：2018-09-6  9:42
  *	实体类说明：信息统计字段属性封装	
  */
-public class Info {
-	
+public class Info {                 
 		 private  int	STATISTICSID; //主键                 
 		 private  int DOCID;		  //文档主键           
 		 private  String DOCTITLE;    //文档标题         
