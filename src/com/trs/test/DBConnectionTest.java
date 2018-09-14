@@ -22,7 +22,7 @@ public class DBConnectionTest {
 		ac = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 		}
 		DataSource dataSource=ac.getBean(DataSource.class);
-		if (dataSource!=null) {
+		if (dataSource!=null) {   
 			System.out.println("===================== OK Connection MySql =====================");
 			System.out.println(dataSource.getConnection());
 			System.out.println(dataSource.getLogWriter());
