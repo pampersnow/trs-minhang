@@ -24,7 +24,7 @@ public class InfoStatisServiceImpl implements InfoStatisService {
 	@Override  
 	public List<Info> queryDataStat() throws Exception {
 		// TODO Auto-generated method stub
-			List<Info> list =infoStatisMapper.selectDataStat();
+			List<Info> list =infoStatisMapper.selectDataStat();   
 			//if判断数据流通，前期测试
 			for (Info info : list) {
 				if (info!=null) {
