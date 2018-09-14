@@ -44,7 +44,7 @@ public class InfoStatisController {
 	@ResponseBody
 	 public  String  addInfoCollect(@RequestBody Info info ) throws Exception {		
 		//日志打印
-		logger.debug("addInfoCollect====================================");		
+		logger.debug("=============addInfoCollect=======================");			
 		System.out.println();
 		addInfoStatisService.addInfo(info);
         System.out.println("OK");
@@ -59,18 +59,7 @@ public class InfoStatisController {
 	public Object getInfoStatis() throws Exception {		
 		//日志打印
 		logger.debug("=================执行===getInfoStatis===================");
-		List<Info> list=infoStatisService.queryDataStat();
-		for (Info info : list) {
-			if (info!=null) {
-				System.out.println("===========info==============");
-				System.out.println(info.getFWCount());
-				System.out.println("=============================");
-			} else {
-				System.out.println("=======error info==============");
-				System.out.println("error:info is null!");
-				System.out.println("===============================");			
-			}
-		}		
+		List<Info> list=infoStatisService.queryDataStat();		
 		Gson gson = new Gson();
 		String json=gson.toJson(list);
 		logger.info(json);
@@ -85,24 +74,12 @@ public class InfoStatisController {
 	public Object getPubCount() throws Exception {		
 		//日志打印
 		logger.debug("=================执行===getPubCount===================");
-		List<Info> list=infoStatisService.queryPubCount();
-		for (Info info : list) {
-			if (info!=null) {
-				System.out.println("===========info==============");
-				System.out.println(info.getFBCount());
-				System.out.println("=============================");
-			} else {
-				System.out.println("=======error info==============");
-				System.out.println("error:info is null!");
-				System.out.println("===============================");			
-			}
-		}		
+		List<Info> list=infoStatisService.queryPubCount();	
 		Gson gson = new Gson();
 		String json=gson.toJson(list);
 		logger.info(json);
-		return json;	
+		return json;			
 	}
-	
 	/**
 	 * 起始日期查询访问量前五的记录数
 	 * */
