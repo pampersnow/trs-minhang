@@ -24,9 +24,6 @@
          <property name="basePackage" value="com.trs.dao" />  
     </bean>   
     <!-- ================JNDI获取数据源(使用dbcp连接池)====================== -->  
-    <bean id="dataSource1" class="com.trs.infostatis.TrsDataSource" init-method="init">
-    	<property name="configFile" value="trsconfig/domain/config.xml" /> 
-    </bean>
     <bean id="dataSource" class="com.trs.infostatis.TrsDataSource" init-method="init" destroy-method="close" scope="singleton">
     		<property name="driverClassName" value="com.mysql.jdbc.Driver" />  
 			<property name="configFile" value="trsconfig/domain/config.xml" /> 
@@ -74,33 +71,4 @@
 	</tx:advice> 
 	<!-- AOP 事务处理 结束 --> 
 	
-	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-	<context:component-scan base-package="com.trs.controller" />
-	<!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
-	<mvc:annotation-driven />
-	<!-- 静态资源处理 css js imgs -->
-	<mvc:resources location="/site/" mapping="/site/**"></mvc:resources>
-
-	<!-- 配置多视图解析器：允许同样的内容数据呈现不同的view -->
-	<bean
-		class="trs.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="favorParameter" value="true" />
-		<property name="defaultContentType" value="text/html" />
-		<property name="mediaTypes">
-			<map>
-				<entry key="html" value="text/html;charset=UTF-8" />
-				<entry key="json" value="application/json;charset=UTF-8" />
-				<entry key="xml" value="application/xml;charset=UTF-8" />
-			</map>
-		</property>
-		<property name="viewResolvers">
-			<list>
-				<bean
-					class="trs.springframework.web.servlet.view.InternalResourceViewResolver">
-					<property name="prefix" value="/WEB-INF/jsp/" />
-					<property name="suffix" value=".jsp" />
-				</bean>
-			</list>
-		</property>
-	</bean>
 </beans>

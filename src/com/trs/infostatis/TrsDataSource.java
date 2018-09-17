@@ -42,12 +42,10 @@ public class TrsDataSource extends BasicDataSource {
 		    super.setUrl(connectionURL);
 		    super.setUsername(connectionUser);
 		    super.setPassword(connectionPassword);
-			System.err.println("connectionURL:"+connectionURL+";connectionUser:"+connectionUser+";connectionPassword:"+connectionPassword);
+		    logger.debug("connectionURL:"+connectionURL+";connectionUser:"+connectionUser+";connectionPassword:"+connectionPassword);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug("统计信息初始化数据错误：",e);
 		}
-		System.err.println("TrsDataSource_9");
 	}
 
 	@Override
