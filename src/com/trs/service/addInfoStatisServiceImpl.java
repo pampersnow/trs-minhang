@@ -17,7 +17,6 @@ public class addInfoStatisServiceImpl implements addInfoStatisService {
     
 	@Resource  
 	private InfoStatisMapper infoStatisMapper;
-		
 	@Override
 	public boolean addInfo(Info info) throws Exception {
 		// TODO Auto-generated method stub

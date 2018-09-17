@@ -20,7 +20,11 @@ public interface InfoStatisService {
 		List<Info> queryDataStat() throws Exception;
 		
 		/**
+<<<<<<< HEAD
+		 * 查询一周内发稿量       
+=======
 		 * 查询一周内发稿量
+>>>>>>> branch 'master' of https://github.com/ultralepton/trs-minhang.git
 		 * @return 
 		 * */
 		List<Info> queryPubCount() throws Exception;

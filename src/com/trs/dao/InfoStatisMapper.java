@@ -11,8 +11,7 @@ import com.trs.pojo.Info;
  *	创建日期：2018-09-6  9:40
  *	接口说明：信息统计	
  */
-public interface InfoStatisMapper {
-	
+public interface InfoStatisMapper {	
 	//数据统计-查询周一至周日   每天访问量 
 	List<Info> selectDataStat() throws Exception;
 	

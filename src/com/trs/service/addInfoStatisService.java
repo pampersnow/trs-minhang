@@ -11,7 +11,11 @@ import com.trs.pojo.Info;
 public interface addInfoStatisService {
 	/**
 	 * 插入访客信息    
+<<<<<<< HEAD
+	 * @return         
+=======
 	 * @return 
+>>>>>>> branch 'master' of https://github.com/ultralepton/trs-minhang.git
 	 * */
 	boolean addInfo(Info info)throws Exception;
 }
