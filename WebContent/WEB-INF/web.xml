@@ -21,13 +21,14 @@
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
   
+  
    <!-- 配置SpringMVC核心控制器,将所有的请求(除了Spring MVC中的静态资源请求)都交给Spring MVC -->
   <servlet>
     <servlet-name>spring</servlet-name>
     <servlet-class>trs.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:springmvc-servlet.xml</param-value>
+      <param-value>classpath:applicationContext.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>

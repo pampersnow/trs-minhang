@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="GB2312"?>
+<plugin version="1.0" id="db.connnection">
+	<!--DB Connection Attributes Config BEGIN-->
+	<extension element-class="com.trs.infra.persistent.db.DBConnectionConfigs" 
+		id="DbConnection">
+		<DBConnections default="MySQL">
+			<DBConnect name="SQLServer" className="com.trs.infra.util.database.SQLServerDB" 
+				dowithClob="false" 
+				connectionURL="jdbc:jtds:sqlserver://127.0.0.1:3306/TRSWCMV7" 
+				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt" 
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+			<DBConnect name="Oracle" className="com.trs.infra.util.database.OracleDB" 
+				dowithClob="false" 
+				connectionURL="jdbc:oracle:thin:@127.0.0.1:3306:" 
+				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt" 
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+			<DBConnect name="Oracle11G" className="com.trs.infra.util.database.OracleDB11G" 
+				dowithClob="false" 
+				connectionURL="jdbc:oracle:thin:@127.0.0.1:3306:" 
+				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt" 
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+			<DBConnect name="Sybase" className="com.trs.infra.util.database.SybaseASEWithJtds" 
+				dowithClob="false" 
+				connectionURL="jdbc:jtds:sybase://127.0.0.1:3306/TRSWCMV7;charset=utf8" 
+				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt" 
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+			<DBConnect name="DB2" className="com.trs.infra.util.database.DB2UDBV9" 
+				dowithClob="false" 
+				connectionURL="jdbc:db2://127.0.0.1:3306/TRSWCMV7" 
+				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt" 
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+			<DBConnect name="MySQL" className="com.trs.infra.util.database.MysqlDB" 
+			dowithClob="false" connectionURL="jdbc:mysql://127.0.0.1:3306/TRSWCMV7?characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull" 
+				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt"
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+			<DBConnect name="KingBase" className="com.trs.infra.util.database.KingBaseDB" 
+				dowithClob="false" 
+				connectionURL="jdbc:kingbase://127.0.0.1:3306/TRSWCMV7:ClientEncode=UNICODE" 
+				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt" 
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+			<DBConnect name="GBase" className="com.trs.infra.util.database.GBaseDB" 
+				dowithClob="false" 
+				connectionURL="jdbc:gbasedbt-sqli://192.168.2.2:9088/trswcmv7:INFORMIXSERVER=g1" 
+				connectionUser="gbasedbt" connectionPassword="EncryptedZ2Jhc2VkYnQ." 
+				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
+		</DBConnections>
+	</extension>
+	<!--DB Connection Attributes Config END-->
+</plugin>
