@@ -1,12 +1,12 @@
-package com.trs.service;
+package com.trs.infostatis.service;
 
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.trs.dao.InfoStatisMapper;
-import com.trs.pojo.Info;
+import com.trs.infostatis.dao.InfoStatisMapper;
+import com.trs.infostatis.pojo.Info;
 
 import trs.springframework.stereotype.Service;
 

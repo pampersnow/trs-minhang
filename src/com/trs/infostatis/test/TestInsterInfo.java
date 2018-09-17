@@ -1,10 +1,11 @@
-package com.trs.test;
+package com.trs.infostatis.test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.Resource;
 import org.junit.Test;
-import com.trs.dao.InfoStatisMapper;
-import com.trs.pojo.Info;
+
+import com.trs.infostatis.dao.InfoStatisMapper;
+import com.trs.infostatis.pojo.Info;
 /**
  * @author JYB
  *≤‚ ‘£∫≤Â»Î ˝æ›

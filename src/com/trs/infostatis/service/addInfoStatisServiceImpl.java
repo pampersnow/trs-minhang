@@ -1,11 +1,11 @@
-package com.trs.service;
+package com.trs.infostatis.service;
 
 import javax.annotation.Resource;
 
 import trs.springframework.stereotype.Service;
 
-import com.trs.dao.InfoStatisMapper;
-import com.trs.pojo.Info;
+import com.trs.infostatis.dao.InfoStatisMapper;
+import com.trs.infostatis.pojo.Info;
 
 /**
  * @author JYB

@@ -18,10 +18,10 @@
 
             
 	<!-- ================包扫描============================================= -->
-    <context:component-scan base-package="com.trs.service"/> 
-    <context:component-scan base-package="com.trs.dao"/>  
-   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
-         <property name="basePackage" value="com.trs.dao" />  
+    <context:component-scan base-package="com.trs.infostatis.service"/> 
+    <context:component-scan base-package="com.trs.infostatis.dao"/>  
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+         <property name="basePackage" value="com.trs.infostatis.dao" />  
     </bean>   
     <!-- ================JNDI获取数据源(使用dbcp连接池)====================== -->  
     <bean id="dataSource" class="com.trs.infostatis.TrsDataSource" init-method="init" destroy-method="close" scope="singleton">
@@ -61,7 +61,7 @@
    	<!-- AOP 事务处理 开始 -->    
 	<aop:aspectj-autoproxy />
 	<aop:config  proxy-target-class="true">
-		<aop:pointcut expression="execution(* *com.trs.service..*(..))" id="transService"/>
+		<aop:pointcut expression="execution(* *com.trs.infostatis.service..*(..))" id="transService"/>
 		<aop:advisor pointcut-ref="transService" advice-ref="txAdvice" />
 	</aop:config> 
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">  

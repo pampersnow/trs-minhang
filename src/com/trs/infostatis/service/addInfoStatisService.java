@@ -1,6 +1,6 @@
-package com.trs.service;
+package com.trs.infostatis.service;
 
-import com.trs.pojo.Info;
+import com.trs.infostatis.pojo.Info;
 
 
 /**

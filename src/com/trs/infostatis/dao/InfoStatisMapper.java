@@ -1,10 +1,10 @@
-package com.trs.dao;
+package com.trs.infostatis.dao;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.trs.pojo.Info;
+import com.trs.infostatis.pojo.Info;
 
 /**
  * @author JYB

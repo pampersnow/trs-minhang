@@ -1,4 +1,4 @@
-package com.trs.pojo;
+package com.trs.infostatis.pojo;
 
 import java.util.Date;
 

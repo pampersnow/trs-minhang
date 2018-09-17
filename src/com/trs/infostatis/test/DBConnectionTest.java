@@ -1,9 +1,11 @@
-package com.trs.test;
+package com.trs.infostatis.test;
 import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.junit.Test;
-import com.trs.dao.InfoStatisMapper;
+
+import com.trs.infostatis.dao.InfoStatisMapper;
+
 import trs.springframework.context.ApplicationContext;
 import trs.springframework.context.support.ClassPathXmlApplicationContext;
 /**

@@ -1,11 +1,12 @@
-package com.trs.controller;
+package com.trs.infostatis.controller;
 import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.google.gson.Gson;
-import com.trs.pojo.Info;
-import com.trs.service.InfoStatisService;
-import com.trs.service.addInfoStatisService;
+import com.trs.infostatis.pojo.Info;
+import com.trs.infostatis.service.InfoStatisService;
+import com.trs.infostatis.service.addInfoStatisService;
+
 import trs.springframework.beans.factory.annotation.Autowired;
 import trs.springframework.format.annotation.DateTimeFormat;
 import trs.springframework.stereotype.Controller;
