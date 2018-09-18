@@ -95,5 +95,11 @@ public class InfoStatisController {
 		mv.addObject("list", list);
 		mv.setViewName("infostatis");
 		return mv;
-	}
+	}	
+		//测试页面跳转
+		 @RequestMapping("3")  
+		 public String msgTo3(){return "3"; }  
+		//测试页面跳转
+		 @RequestMapping("3/20180918_189414")  
+		 public String msgToTit(){return "20180918_189414"; }  
 }
