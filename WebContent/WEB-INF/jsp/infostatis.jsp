@@ -7,27 +7,32 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>信息统计</title>
+<!-- <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css"> 
+<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script> 
+<script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/site/css/glabal.css" />
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/jquery.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/jquery.superslide.2.1.1.js"></script>
+<%-- <script type="text/javascript"
+	src="${pageContext.request.contextPath }/site/js/jquery.js"></script> --%>
+<%-- <script type="text/javascript"
+	src="${pageContext.request.contextPath }/site/js/jquery.superslide.2.1.1.js"></script> --%>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/site/js/echarts.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/site/js/theme/macarons.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/echarts-gl.min.js"></script>
+<%-- <script type="text/javascript"
+	src="${pageContext.request.contextPath }/site/js/echarts-gl.min.js"></script> --%>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/site/js/ecStat.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/site/js/dataTool.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/site/js/china.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/world.js"></script>
+<%-- <script type="text/javascript"
+	src="${pageContext.request.contextPath }/site/js/world.js"></script> --%>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/site/js/bmap.min.js"></script>
 <script type="text/javascript"
@@ -55,7 +60,6 @@
 				// 基于准备好的dom，初始化echarts实例
 				var myChart = echarts.init(document.getElementById('main'),
 						"macarons");
-				console.log(myChart);
 				var app = {};
 				option = null;
 				var FwCou = [];
@@ -181,19 +185,41 @@
 				}
 			</script>
 			<script type="text/javascript">
-				var today = new Date(); //获取今天日期
-				today.setDate(today.getDate() - 7);
-				var dateArray = [];
-				var dateTemp;
-				var flag = 1;
-				for (var i = 0; i < 7; i++) {
-					dateTemp = today.getFullYear() + "-"
-							+ (today.getMonth() + 1) + "-" + today.getDate();
-					dateArray.push(dateTemp);
-					today.setDate(today.getDate() + flag);
-				}
-				$("#today").val(dateArray[0]);
-				$("#weeks").val(dateTemp);
+			$(function () {
+	            $("#start,#stop").datepicker({
+	                showButtonPanel: true,
+	                dateFormat: "yy-mm-dd",
+	                defaultDate: +0,
+	            });
+	            var date = $.datepicker.formatDate("yy-mm-dd", new Date());
+	            $('#select').change(function (e) {
+	                var val = $(this).val();
+	                switch (val) {
+	                    case 'all':
+	                        $('#start').datepicker('setDate', '');
+	                        $('#stop').datepicker('setDate', '');
+	                        break;
+	                    case '7':
+	                        $('#start').datepicker('setDate', '-7');
+	                        $('#stop').datepicker('setDate', date);
+	                        break;
+	                    case '30':
+	                        $('#start').datepicker('setDate', "-30");
+	                        $('#stop').datepicker('setDate', date);
+	                        break;
+	                    case '183':
+	                        $('#start').datepicker('setDate', '-6m');
+	                        $('#stop').datepicker('setDate', date);
+	                        break;
+	                    case '365':
+	                        $('#start').datepicker('setDate', '-1y');
+	                        $('#stop').datepicker('setDate', date);
+	                        break;
+	                    default:
+	                        console.log('default');
+	                }
+	            })
+	        });
 			</script>
 			<div class="gu-list gu-list-group y_list2">
 				<b>访问量前五：
@@ -201,15 +227,15 @@
 						action="${pageContext.request.contextPath }/doStartEndInfo.html"
 						method="post">
 						<h3>
-							按日期查找：&nbsp;&nbsp; <select style="font-family:"微软雅黑"">
+							按日期查找：&nbsp;&nbsp; <select id="select" style="font-family:"微软雅黑"">
 								<option value="all" style="font-family:"微软雅黑"">全部</option>
-								<option value="weeks">最近7天</option>
-								<option value="month">最近30天</option>
-								<option value="opel">最近半年</option>
-								<option value="years">一年内</option>
-							</select>&nbsp;&nbsp; &nbsp;<input id="today" class="Wdate"
+								<option value="7">最近7天</option>
+								<option value="30">最近30天</option>
+								<option value="183">最近半年</option>
+								<option value="365">一年内</option>
+							</select>&nbsp;&nbsp; &nbsp;<input id="start" class="Wdate"
 								placeholder="请选择日期" type="text" name="startTime"
-								onclick="WdatePicker()" />&nbsp;至&nbsp;<input id="weeks"
+								onclick="WdatePicker()" />&nbsp;至&nbsp;<input id="stop"
 								class="Wdate" placeholder="请选择日期" type="text" name="endTime"
 								onclick="WdatePicker()" /> <input type="submit" value="搜索"
 								class="button">
@@ -226,9 +252,10 @@
 											value="${lists.DOCPUBTIME }" pattern="yyyy-MM-dd" />)
 								</td></a>
 					</tbody>
-				</c:forEach>
-			</div>
+				</c:forEach>				
+			</div>			
 		</div>
+		<a href="${pageContext.request.contextPath }/3" style="float: ">进入测试页面</a>
 	</div>
 </body>
 </html>
