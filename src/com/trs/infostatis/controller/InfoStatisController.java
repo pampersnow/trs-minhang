@@ -102,4 +102,7 @@ public class InfoStatisController {
 		//测试页面跳转
 		 @RequestMapping("3/20180918_189414")  
 		 public String msgToTit(){return "20180918_189414"; }  
+		//测试页面跳转
+		 @RequestMapping("test")  
+		 public String msgTest(){return "test"; }  
 }

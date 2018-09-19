@@ -24,9 +24,14 @@
          <property name="basePackage" value="com.trs.infostatis.dao" />  
     </bean>   
     <!-- ================JNDI获取数据源(使用dbcp连接池)====================== -->  
-    <bean id="dataSource" class="com.trs.infostatis.TrsDataSource" init-method="init" destroy-method="close" scope="singleton">
+   <!--  <bean id="dataSource" class="com.trs.infostatis.TrsDataSource" init-method="init" destroy-method="close" scope="singleton">
     		<property name="driverClassName" value="com.mysql.jdbc.Driver" />  
-			<property name="configFile" value="trsconfig/domain/config.xml" /> 
+			<property name="configFile" value="trsconfig/domain/config.xml" />  -->
+	 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" scope="singleton">
+    		<property name="driverClassName" value="com.mysql.jdbc.Driver" />  
+			<property name="url" value="jdbc:mysql://127.0.0.1:3306/trsinfostatis?useUnicode=true&amp;characterEncoding=utf-8" />  
+			<property name="username" value="root" />  
+			<property name="password" value="1234" />
 			<property name="initialSize" value="45"/>
 			<property name="maxActive" value="50"/>
 			<property name="maxIdle" value="5"/>

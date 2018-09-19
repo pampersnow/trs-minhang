@@ -7,8 +7,22 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<title id="tit">中南局部署2018年“民航服务质量体系建设”专项行动</title>
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/site/images/glabal.css" />
-		<script src="${pageContext.request.contextPath }/site/images/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${pageContext.request.contextPath }/site/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath }/site/images/jquery.superslide.2.1.1.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath }/site/js/statistical.js" type="text/javascript"></script>
+		<!-- 获取访问信息 -->
+		<script type="text/javascript">
+			/*文档id*/
+			var  docid = 798;
+			/* 文档标题 */
+			var doctitle ="ex5c6tvbhunjimkonjubh";		
+			/* 文档文档所在栏目 */
+			var docchannel=9;					
+			/* 文档发布时间 */
+			var docpubtime="2018-09-17 13:14:13";		
+	
+			statistical(docid,doctitle,docchannel,docpubtime);
+		</script>		
 		<script type="text/javascript">
 			function setTab(name, num, n) {
 				for(i = 1; i <= n; i++) {
@@ -138,33 +152,4 @@
 			});
 		</script>
 	</body>
-<!-- 获取访问信息 -->
-		<script type="text/javascript">
-			/* 获取页面标题 */
-			var DOCTITLE = document.getElementById('tit').innerHTML;
-			alert(DOCTITLE)
-			/* 获取文档发布时间 */
-			 var DOCPUBTIME = document.getElementById('pub').innerHTML;
-			alert(DOCPUBTIME)
-			/* 栏目id */
-			var DOCCHANNEL = window.location.pathname;
-			alert(DOCCHANNEL)
-			/* 获取访问时间 */
-			var DOCCLICKDATE = new Date();
-			DOCCLICKDATE = DOCCLICKDATE.getFullYear() + "-"
-					+ (DOCCLICKDATE.getMonth() + 1) + "-" + DOCCLICKDATE.getDate();
-			alert(DOCCLICKDATE)
-			
-			var data = JSON.stringify({"DOCID":DOCID,"DOCTITLE":DOCTITLE, "DOCCHANNEL":DOCCHANNEL,"DOCPUBTIME":DOCPUBTIME,
-			    			"DOCCLICKDATE":DOCCLICKDATE });			    
-				$.ajax({
-							url : '${pageContext.request.contextPath }/doAddInfoCollect.html',
-							type : "post",
-							data : data,
-							dataType : "json",
-							async:false,
-							contentType: "application/json; charset=utf-8",
-							success : function(data) {alert("成功!");}					
-					}); 
-		</script>		
 </html>
