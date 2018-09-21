@@ -1,7 +1,7 @@
 package com.trs.infostatis.pojo;
-
 import java.util.Date;
-
+import trs.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * @author JYB
  *	创建日期：2018-09-6  9:42
@@ -12,25 +12,50 @@ public class Info {
 		 private  int DOCID;		  //文档主键           
 		 private  String DOCTITLE;    //文档标题         
 		 private  int DOCCHANNEL;     //文档所属频道     
-		 private  Date DOCPUBTIME;    //文档发布时间     
+		 @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+		 private  Date DOCPUBTIME;    //文档发布时间    
+		 @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8") 
 		 private  Date DOCCLICKDATE;  //按天统计点击量  
 		 private  int DOCCLICKCOUNT;  //日期点击次数     
 		 private Date startTime;      //开始时间
 		 private Date endTime;        //结束时间
-		 private int FWCount;         //访问量
-		 private int FBCount;         //发布量
-		public int getFWCount() {
+		 public Integer getFWCount() {
 			return FWCount;
 		}
-		public void setFWCount(int fWCount) {
+		public void setFWCount(Integer fWCount) {
 			FWCount = fWCount;
 		}
-		public int getFBCount() {
+		public Integer getFBCount() {
 			return FBCount;
 		}
-		public void setFBCount(int fBCount) {
+		public void setFBCount(Integer fBCount) {
 			FBCount = fBCount;
 		}
+		private Integer FWCount;         //访问量
+		 private Integer FBCount;         //发布量
+		 private  String daystr;
+		 private  String daystr2;
+		 private String Fwtimes;
+
+		public String getFwtimes() {
+			return Fwtimes;
+		}
+		public void setFwtimes(String fwtimes) {
+			Fwtimes = fwtimes;
+		}
+		public String getDaystr2() {
+			return daystr2;
+		}
+		public void setDaystr2(String daystr2) {
+			this.daystr2 = daystr2;
+		}
+		public String getDaystr() {
+			return daystr;
+		}
+		public void setDaystr(String daystr) {
+			this.daystr = daystr;
+		}
+
 		public Date getStartTime() {
 			return startTime;
 		}
@@ -67,12 +92,14 @@ public class Info {
 		public void setDOCCHANNEL(int dOCCHANNEL) {
 			DOCCHANNEL = dOCCHANNEL;
 		}
+		@DateTimeFormat(pattern="yyyy-MM-dd")
 		public Date getDOCPUBTIME() {
 			return DOCPUBTIME;
 		}
 		public void setDOCPUBTIME(Date dOCPUBTIME) {
 			DOCPUBTIME = dOCPUBTIME;
 		}
+		@DateTimeFormat(pattern="yyyy-MM-dd")
 		public Date getDOCCLICKDATE() {
 			return DOCCLICKDATE;
 		}

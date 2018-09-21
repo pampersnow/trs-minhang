@@ -7,26 +7,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO xwcmstatistics (STATISTICSID,DOCID, DOCTITLE,
 		DOCCHANNEL,DOCPUBTIME,DOCCLICKDATE,DOCCLICKCOUNT) VALUES
 		(#{STATISTICSID}, #{DOCID},#{DOCTITLE}, #{DOCCHANNEL},#{DOCPUBTIME},
-		#{DOCCLICKDATE},#{DOCCLICKCOUNT})
+		#{DOCCLICKDATE},1)
 		ON DUPLICATE KEY UPDATE STATISTICSID=#{STATISTICSID},DOCTITLE=#{DOCTITLE}, DOCCHANNEL=#{DOCCHANNEL},
 		DOCCLICKDATE=#{DOCCLICKDATE},DOCCLICKCOUNT=DOCCLICKCOUNT+1
 	</insert>
 
-	<select id="selectDataStat" resultType="Info">
-		SELECT
-		SUM(xw.`DOCCLICKCOUNT`) FWCount FROM xwcmstatistics xw
-		WHERE
-		YEARWEEK(DATE_FORMAT(xw.`DOCCLICKDATE`,'%Y-%m-%d')-INTERVAL 1 DAY) =
-		YEARWEEK(NOW())
-		GROUP BY xw.`DOCCLICKDATE`
+	<select id="selectDataStat" resultType="Info">		
+		SELECT SUM(DOCCLICKCOUNT)as FWCount,DOCCLICKDATE FROM xwcmstatistics  
+		<where>
+			<![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= DATE(DOCCLICKDATE)]]>
+		</where>
+		GROUP BY DATE_FORMAT(DOCCLICKDATE,'%Y-%m-%d') ASC
 	</select>
 
-	<select id="selectPubCount" resultType="Info">
-		SELECT
-		COUNT(xw.`DOCPUBTIME`) FBCount FROM xwcmstatistics xw
-		WHERE YEARWEEK(DATE_FORMAT(xw.`DOCPUBTIME`,'%Y-%m-%d')- INTERVAL 1 DAY) =
-		YEARWEEK(NOW())
-		GROUP BY DATE_FORMAT(xw.`DOCPUBTIME`,'%Y-%m-%d')
+	<select id="selectPubCount" resultType="Info">		
+		SELECT  DOCPUBTIME, COUNT(*) AS FBCount
+		FROM wcmdocument		
+		<where>
+			<![CDATA[DATE_SUB(CURDATE(),INTERVAL 7 DAY) <= DATE(DOCPUBTIME) ]]>
+		</where>
+		GROUP BY DATE_FORMAT(DOCPUBTIME,'%Y-%m-%d') ASC
 	</select>
 
 	<select id="selectStartEndInfo" resultType="Info" parameterType="Date">
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 	<![CDATA[and DATE_FORMAT(DOCCLICKDATE, '%Y-%m-%d') <= DATE_FORMAT(#{endTime}, '%Y-%m-%d') ]]>
 			</if>
 		</where>
-		ORDER BY `DOCCLICKCOUNT` DESC
+		GROUP BY `DOCCLICKCOUNT` DESC
 		LIMIT 5
 	</select>
 </mapper>

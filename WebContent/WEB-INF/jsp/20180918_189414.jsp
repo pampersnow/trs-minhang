@@ -150,6 +150,6 @@
 			$(".js-art .fonts").click(function() {
 				$(".js-art .gu-artcon").css("font-size", "14px");
 			});
-		</script>
+		</script>		
 	</body>
 </html>

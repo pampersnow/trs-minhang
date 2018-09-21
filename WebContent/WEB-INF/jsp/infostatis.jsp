@@ -12,8 +12,6 @@
 <title>信息统计</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/site/css/jquery-ui.min.css"> 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/site/css/glabal.css" />
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/jquery.js"></script> --%>
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/jquery.superslide.2.1.1.js"></script> --%>
 <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/echarts.js"></script>
@@ -24,8 +22,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/china.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/bmap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/simplex.js"></script>
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath }/site/js/My97DatePicker/WdatePicker.js"></script>
- --%>	
 <script type="text/javascript">
 	function setTab(name, num, n) {
 		for (i = 1; i <= n; i++) {
@@ -48,7 +44,8 @@
 				var app = {};
 				option = null;
 				var FwCou = [];
-				var FbCou = [];
+				var Fwtime=[];
+				var FbCou = [];				
 				option = {
 					title : {
 						text : '数据统计',
@@ -76,11 +73,13 @@
 						}
 					},
 					xAxis : {
+						name:'   日期',
 						type : 'category',
 						boundaryGap : false,
-						data : [ '周一', '周二', '周三', '周四', '周五', '周六', '周日' ]
+						data : []
 					},
 					yAxis : {
+						name:'   数量',
 						type : 'value',
 						axisLabel : {
 							formatter : '{value} '
@@ -128,30 +127,17 @@
 				};
 				/* echarts end  */
 				$.ajax({
-							url : '${pageContext.request.contextPath }/doInfoStatis.html',
+							url : '${pageContext.request.contextPath }/doStatis.html',
 							date : "",
 							type : 'get',
 							dataType : "json",
-							async : false, //同步
+							async : true, //同步
 							contentType : 'application/json;charset=utf-8',
 							success : function(data) {
 								if (data != null && data.length > 0) {
 									for (var i = 0; i < data.length; i++) {
 										FwCou.push(data[i].FWCount);
-									}
-								}
-							}
-						})
-				$.ajax({
-							url : '${pageContext.request.contextPath }/doPubCount.html',
-							date : "",
-							type : 'get',
-							dataType : "json",
-							async : false, //同步
-							contentType : 'application/json;charset=utf-8',
-							success : function(data) {
-								if (data != null && data.length > 0) {
-									for (var i = 0; i < data.length; i++) {
+										Fwtime.push(data[i].daystr);
 										FbCou.push(data[i].FBCount);
 									}
 								}
@@ -160,7 +146,10 @@
 				if (option && typeof option === "object") {
 					myChart.setOption(option, true);
 					myChart.setOption({ //载入数据
-						series : [ {
+						xAxis : {
+							data : Fwtime
+						//填入X轴数据
+						},series : [ {
 							data : FwCou
 						}, {
 							data : FbCou
@@ -170,17 +159,30 @@
 			</script>			
 			<div class="gu-list gu-list-group y_list2">
 				<b>访问量前五：
-				<h3>快捷查询：
+				<h3>选择日期：
 				<script>
-								function submit(obj){
-								$.ajax({
-									type:"post",
-									url:"${pageContext.request.contextPath }/doStartEndInfo.html?select="+obj,
-									async:false, 
-									})
-								}
+					function submit(){									
+						 //获取被选中的option标签
+					       var type = parseInt($('select  option:selected').val());
+						$.ajax({
+						url: "${pageContext.request.contextPath }/doStartEndInfo.html",
+				        type: "GET",
+						dataType: "text",
+						//把获取到的value值传给服务器
+						data: {type: type},
+						success: function(r) {
+						if (!r.err) {
+							alert("OK");						
+						 console.log(product);
+
+						} else {
+						      alert(r.err);
+						}
+						}
+						});
+					}
 							</script>
-				<select id="select" style="font-family:"微软雅黑"" name="" onchange="submit(this.value)">								
+				<select id="select" style="font-family:'微软雅黑'" name="select" onchange="submit()">								
 								<option value="7">最近7天</option>
 								<option value="30">最近30天</option>
 								<option value="183">最近半年</option>
@@ -194,7 +196,7 @@
 							按日期查找：&nbsp;&nbsp; 							
 							<input id="start" class="Wdate"	placeholder="请选择日期" type="text" name="startTime"
 								   onclick="WdatePicker()" />&nbsp;至&nbsp;
-                            <input type="text" id="stop">
+                            <input type="text" id="stop" class="dp">
 							<!-- <input id="start" class="Wdate" placeholder="请选择日期" type="text" name="startTime"
 								   onclick="WdatePicker()" />&nbsp;至&nbsp;
 							<input id="stop" class="Wdate" placeholder="请选择日期" type="text" name="endTime"
@@ -205,7 +207,6 @@
 				</b>
     <script>
         $(function () {
-        	console.info($("#start"));
             $("#start,#stop").datepicker({
                 showButtonPanel: true,
                 dateFormat: "yy-mm-dd",
@@ -242,6 +243,33 @@
                 }
             })
         });
+        
+        $(function () {
+        	$("#stop").datepicker();
+        	$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        	});
+        	jQuery(function ($) {
+        	$.datepicker.regional['zh-CN'] = {
+        	closeText: '关闭',
+        	prevText: '<上月',
+        	nextText: '下月>',
+        	currentText: '今天',
+        	monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+        	'七月', '八月', '九月', '十月', '十一月', '十二月'],
+        	monthNamesShort: ['一', '二', '三', '四', '五', '六',
+        	'七', '八', '九', '十', '十一', '十二'],
+        	dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+        	dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+        	dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+        	weekHeader: '周',
+        	dateFormat: 'yy-mm-dd',
+        	firstDay: 1,
+        	isRTL: false,
+        	showMonthAfterYear: true,
+        	yearSuffix: '年'
+        	};
+        	$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        	});
     </script>
 
 				<div class="gu-cover-bor"></div>
@@ -258,23 +286,4 @@
 		<a href="${pageContext.request.contextPath }/3" style="float: ">进入测试页面</a>
 	</div>
 </body>
-<script type="text/javascript">
-/* $.ajax(
-        {
-            type:"post",
-            url:"${pageContext.request.contextPath}/doStartEndInfo.html",
-            data:{},
-            async:true,
-            success:function(data){
-                var t=document.querySelector("#ulli").innerHTML;
-                if($.trim(t)==""){
-                    window.location.reload();
-   					}
-            },
-            error:function(){
-                alert('失败');
-            }			
-        }
-    ) */
-</script>
 </html>

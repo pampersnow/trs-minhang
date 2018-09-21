@@ -1,7 +1,12 @@
 package com.trs.infostatis.controller;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.trs.infostatis.pojo.Info;
 import com.trs.infostatis.service.InfoStatisService;
@@ -18,14 +23,14 @@ import trs.springframework.web.servlet.ModelAndView;
 
 /**
  * @author JYB
- *	´´½¨ÈÕÆÚ£º2018-09-6  9:45
- *	¿ØÖÆÆ÷ËµÃ÷£ºĞÅÏ¢Í³¼Æ_¿ØÖÆÆ÷_ÊµÏÖÇ°ºóÌ¨Êı¾İ½»»¥´¦Àí	
+ *	åˆ›å»ºæ—¥æœŸï¼š2018-09-6  9:45
+ *	æ§åˆ¶å™¨è¯´æ˜ï¼šä¿¡æ¯ç»Ÿè®¡_æ§åˆ¶å™¨_å®ç°å‰åå°æ•°æ®äº¤äº’å¤„ç†	
  */
 @Controller
 public class InfoStatisController {
 	
 	/**
-	 * ×¢Èëservice½Ó¿Ú
+	 * æ³¨å…¥serviceæ¥å£
 	 * */    
 	@Autowired
 	private InfoStatisService infoStatisService;
@@ -33,76 +38,78 @@ public class InfoStatisController {
 	private addInfoStatisService addInfoStatisService;
 	
 	/**
-	 * ÈÕÖ¾¼ÇÂ¼
+	 * æ—¥å¿—è®°å½•
 	 * */
 	private Logger logger = Logger.getLogger(InfoStatisController.class);
 	
 	/**
-	 * Ìí¼Ó·ÃÎÊ¼ÇÂ¼
-	 * Ç°¶ËÒ³ÃæAjax·¢ËÍÇëÇóµ÷ÓÃ¸Ã·½·¨  
+	 * æ·»åŠ è®¿é—®è®°å½•
+	 * å‰ç«¯é¡µé¢Ajaxå‘é€è¯·æ±‚è°ƒç”¨è¯¥æ–¹æ³•  
 	 * */
 	@RequestMapping(value="/doAddInfoCollect.html")	
 	@ResponseBody
 	 public  String  addInfoCollect(@RequestBody Info info ) throws Exception {		
-		//ÈÕÖ¾´òÓ¡
+		//æ—¥å¿—æ‰“å°
 		logger.debug("=============addInfoCollect=======================");			
 		System.out.println();
 		addInfoStatisService.addInfo(info);
         System.out.println("OK");
         return "redirect:infostatis";
 	 }
-	
 	/**
-	 * Êı¾İÍ³¼Æ-»ñÈ¡ÖÜÒ»ÖÁÖÜÈÕ   Ã¿Ìì·ÃÎÊÁ¿
+	 * æ•°æ®ç»Ÿè®¡-è·å–7å¤©ä»¥å†…çš„è®¿é—®é‡ã€å‘å¸ƒé‡
 	 * */
-	@RequestMapping(value="/doInfoStatis.html")
+	@RequestMapping(value="/doStatis.html")
 	@ResponseBody
-	public Object getInfoStatis() throws Exception {		
-		//ÈÕÖ¾´òÓ¡
-		logger.debug("=================Ö´ĞĞ===getInfoStatis===================");
-		List<Info> list=infoStatisService.queryDataStat();		
+	public Object getStatis() throws Exception {		
+		//æ—¥å¿—æ‰“å°
+		logger.debug("=================æ‰§è¡Œ===getStatis===================");		
+		List<Info> list=infoStatisService.queryDataStat();			
+		List<Info> list2=infoStatisService.queryPubCount();
+		////ä»¥è®¿é—®æ—¶é—´ä½œä¸ºkeyÂ 
+		Map<Object, Info> map = new HashMap<Object, Info>();
+		for (Info info : list) { map.put(info.getDaystr(), info); }
+		for (Info info : list2) {
+			if (map.containsKey(info.getDaystr())) {
+				//map.remove(info.getDaystr());//ç§»é™¤é”®å€¼ä¸ºå‘å¸ƒæ—¶é—´ç›¸ç­‰çš„å¯¹è±¡
+				//map.put(info.getFBCount());
+				map.containsValue(info.getFBCount());
+				continue;//åœæ­¢å¹¶è¿”å›ç»§ç»­å¾ªç¯
+			} 
+			map.put(info.getDaystr(), info);
+		}
+		 //å¾ªç¯mapå†å¯¹mapä¸­æ¯ä¸ªå¯¹è±¡è¿›è¡Œæ“ä½œ
+		for (Entry<Object, Info> entry : map.entrySet()) {
+			System.out.println("map:  key="+entry.getKey());
+			System.out.println("map:  value="+entry.getValue());
+		}
 		Gson gson = new Gson();
-		String json=gson.toJson(list);
-		logger.info(json);
+		String json=gson.toJson(map);
+		logger.info("json:  "+json);
 		return json;	
-	} 
-	
-	/**
-	 * Êı¾İÍ³¼Æ-»ñÈ¡ÖÜÒ»ÖÁÖÜÈÕ   Ã¿Ìì·¢²¼Á¿
-	 * */
-	@RequestMapping(value="/doPubCount.html")
-	@ResponseBody
-	public Object getPubCount() throws Exception {		
-		//ÈÕÖ¾´òÓ¡
-		logger.debug("=================Ö´ĞĞ===getPubCount===================");
-		List<Info> list=infoStatisService.queryPubCount();	
-		Gson gson = new Gson();
-		String json=gson.toJson(list);
-		logger.info(json);
-		return json;			
 	}
 	/**
-	 * ÆğÊ¼ÈÕÆÚ²éÑ¯·ÃÎÊÁ¿Ç°ÎåµÄ¼ÇÂ¼Êı
+	 * èµ·å§‹æ—¥æœŸæŸ¥è¯¢è®¿é—®é‡å‰äº”çš„è®°å½•æ•°
 	 * */
 	@RequestMapping(value="/doStartEndInfo.html")
 	public ModelAndView getStartEndInfo(@RequestParam(value="startTime",required=false)
 										@DateTimeFormat(pattern="yyyy-MM-dd")Date startTime,
 										@RequestParam(value="endTime",required=false)
 										@DateTimeFormat(pattern="yyyy-MM-dd")Date endTime) throws Exception{
-		logger.debug("=================Ö´ĞĞ===getStartEndInfo===================");
+		logger.debug("=================æ‰§è¡Œ===getStartEndInfo===================");
 		ModelAndView mv = new ModelAndView();
 		List<Info> list = infoStatisService.queryStartEndInfo(startTime, endTime);
 		mv.addObject("list", list);
 		mv.setViewName("infostatis");
 		return mv;
 	}	
-		//²âÊÔÒ³ÃæÌø×ª
+		//æµ‹è¯•é¡µé¢è·³è½¬
 		 @RequestMapping("3")  
 		 public String msgTo3(){return "3"; }  
-		//²âÊÔÒ³ÃæÌø×ª
+		//æµ‹è¯•é¡µé¢è·³è½¬
 		 @RequestMapping("3/20180918_189414")  
 		 public String msgToTit(){return "20180918_189414"; }  
-		//²âÊÔÒ³ÃæÌø×ª
+		//æµ‹è¯•é¡µé¢è·³è½¬
 		 @RequestMapping("test")  
 		 public String msgTest(){return "test"; }  
 }
