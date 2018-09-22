@@ -10,38 +10,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>信息统计</title>
-<!-- <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css"> 
-<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script> 
-<script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script> -->
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/site/css/glabal.css" />
-<%-- <script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/jquery.js"></script> --%>
-<%-- <script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/jquery.superslide.2.1.1.js"></script> --%>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/echarts.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/theme/macarons.js"></script>
-<%-- <script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/echarts-gl.min.js"></script> --%>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/ecStat.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/dataTool.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/china.js"></script>
-<%-- <script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/world.js"></script> --%>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/bmap.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/simplex.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/site/js/jquery-1.7.2.min.js">
-	<script type="text/javascript">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/site/css/jquery-ui.min.css"> 
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/site/css/glabal.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/echarts.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/theme/macarons.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/echarts-gl.min.js"></script> 
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/ecStat.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/dataTool.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/china.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/bmap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/site/js/simplex.js"></script>
+<script type="text/javascript">
 	function setTab(name, num, n) {
 		for (i = 1; i <= n; i++) {
 			var menu = document.getElementById(name + i);
@@ -63,7 +44,8 @@
 				var app = {};
 				option = null;
 				var FwCou = [];
-				var FbCou = [];
+				var Fwtime=[];
+				var FbCou = [];				
 				option = {
 					title : {
 						text : '数据统计',
@@ -91,11 +73,13 @@
 						}
 					},
 					xAxis : {
+						name:'   日期',
 						type : 'category',
 						boundaryGap : false,
-						data : [ '周一', '周二', '周三', '周四', '周五', '周六', '周日' ]
+						data : []
 					},
 					yAxis : {
+						name:'   数量',
 						type : 'value',
 						axisLabel : {
 							formatter : '{value} '
@@ -139,35 +123,21 @@
 								name : '平均值'
 							} ]
 						}
-
 					} ]
 				};
 				/* echarts end  */
 				$.ajax({
-							url : '${pageContext.request.contextPath }/doInfoStatis.html',
+							url : '${pageContext.request.contextPath }/doStatis.html',
 							date : "",
 							type : 'get',
 							dataType : "json",
-							async : false, //同步
+							async : true, //同步
 							contentType : 'application/json;charset=utf-8',
 							success : function(data) {
 								if (data != null && data.length > 0) {
 									for (var i = 0; i < data.length; i++) {
 										FwCou.push(data[i].FWCount);
-									}
-								}
-							}
-						})
-				$.ajax({
-							url : '${pageContext.request.contextPath }/doPubCount.html',
-							date : "",
-							type : 'get',
-							dataType : "json",
-							async : false, //同步
-							contentType : 'application/json;charset=utf-8',
-							success : function(data) {
-								if (data != null && data.length > 0) {
-									for (var i = 0; i < data.length; i++) {
+										Fwtime.push(data[i].daystr);
 										FbCou.push(data[i].FBCount);
 									}
 								}
@@ -176,73 +146,131 @@
 				if (option && typeof option === "object") {
 					myChart.setOption(option, true);
 					myChart.setOption({ //载入数据
-						series : [ {
+						xAxis : {
+							data : Fwtime
+						//填入X轴数据
+						},series : [ {
 							data : FwCou
 						}, {
 							data : FbCou
 						} ]
 					});
 				}
-			</script>
-			<script type="text/javascript">
-			$(function () {
-	            $("#start,#stop").datepicker({
-	                showButtonPanel: true,
-	                dateFormat: "yy-mm-dd",
-	                defaultDate: +0,
-	            });
-	            var date = $.datepicker.formatDate("yy-mm-dd", new Date());
-	            $('#select').change(function (e) {
-	                var val = $(this).val();
-	                switch (val) {
-	                    case 'all':
-	                        $('#start').datepicker('setDate', '');
-	                        $('#stop').datepicker('setDate', '');
-	                        break;
-	                    case '7':
-	                        $('#start').datepicker('setDate', '-7');
-	                        $('#stop').datepicker('setDate', date);
-	                        break;
-	                    case '30':
-	                        $('#start').datepicker('setDate', "-30");
-	                        $('#stop').datepicker('setDate', date);
-	                        break;
-	                    case '183':
-	                        $('#start').datepicker('setDate', '-6m');
-	                        $('#stop').datepicker('setDate', date);
-	                        break;
-	                    case '365':
-	                        $('#start').datepicker('setDate', '-1y');
-	                        $('#stop').datepicker('setDate', date);
-	                        break;
-	                    default:
-	                        console.log('default');
-	                }
-	            })
-	        });
-			</script>
+			</script>			
 			<div class="gu-list gu-list-group y_list2">
 				<b>访问量前五：
-					<form
-						action="${pageContext.request.contextPath }/doStartEndInfo.html"
-						method="post">
-						<h3>
-							按日期查找：&nbsp;&nbsp; <select id="select" style="font-family:"微软雅黑"">
-								<option value="all" style="font-family:"微软雅黑"">全部</option>
+				<h3>选择日期：
+				<script>
+					function submit(){									
+						 //获取被选中的option标签
+					       var type = parseInt($('select  option:selected').val());
+						$.ajax({
+						url: "${pageContext.request.contextPath }/doStartEndInfo.html",
+				        type: "GET",
+						dataType: "text",
+						//把获取到的value值传给服务器
+						data: {type: type},
+						success: function(r) {
+						if (!r.err) {
+							alert("OK");						
+						 console.log(product);
+
+						} else {
+						      alert(r.err);
+						}
+						}
+						});
+					}
+							</script>
+				<select id="select" style="font-family:'微软雅黑'" name="select" onchange="submit()">								
 								<option value="7">最近7天</option>
 								<option value="30">最近30天</option>
 								<option value="183">最近半年</option>
 								<option value="365">一年内</option>
-							</select>&nbsp;&nbsp; &nbsp;<input id="start" class="Wdate"
-								placeholder="请选择日期" type="text" name="startTime"
-								onclick="WdatePicker()" />&nbsp;至&nbsp;<input id="stop"
-								class="Wdate" placeholder="请选择日期" type="text" name="endTime"
-								onclick="WdatePicker()" /> <input type="submit" value="搜索"
-								class="button">
+								<option value="all">全部</option>
+							</select>							
+							&nbsp;&nbsp; &nbsp;
+					</h3>
+					<form action="${pageContext.request.contextPath }/doStartEndInfo.html" method="post">
+						<h3>
+							按日期查找：&nbsp;&nbsp; 							
+							<input id="start" class="Wdate"	placeholder="请选择日期" type="text" name="startTime"
+								   onclick="WdatePicker()" />&nbsp;至&nbsp;
+                            <input type="text" id="stop" class="dp">
+							<!-- <input id="start" class="Wdate" placeholder="请选择日期" type="text" name="startTime"
+								   onclick="WdatePicker()" />&nbsp;至&nbsp;
+							<input id="stop" class="Wdate" placeholder="请选择日期" type="text" name="endTime"
+								onclick="WdatePicker()" /> -->
+						    <input type="submit" value="搜索" class="button">
 						</h3>
 					</form>
 				</b>
-
+    <script>
+        $(function () {
+            $("#start,#stop").datepicker({
+                showButtonPanel: true,
+                dateFormat: "yy-mm-dd",
+                defaultDate: +0,
+            });
+            var date = $.datepicker.formatDate("yy-mm-dd", new Date());
+            $('#start').datepicker('setDate', '-7');
+            $('#stop').datepicker('setDate', date);
+            $('#select').change(function (e) {
+                var val = $(this).val();
+                switch (val) {                    
+                    case '7':
+                        $('#start').datepicker('setDate', '-7');
+                        $('#stop').datepicker('setDate', date);
+                        break;
+                    case '30':
+                        $('#start').datepicker('setDate', "-30");
+                        $('#stop').datepicker('setDate', date);
+                        break;
+                    case '183':
+                        $('#start').datepicker('setDate', '-6m');
+                        $('#stop').datepicker('setDate', date);
+                        break;
+                    case '365':
+                        $('#start').datepicker('setDate', '-1y');
+                        $('#stop').datepicker('setDate', date);
+                        break;
+                    case 'all':
+                        $('#start').datepicker('setDate', '');
+                        $('#stop').datepicker('setDate', '');
+                        break;
+                    default:
+                        console.log('default');
+                }
+            })
+        });
+        
+        $(function () {
+        	$("#stop").datepicker();
+        	$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        	});
+        	jQuery(function ($) {
+        	$.datepicker.regional['zh-CN'] = {
+        	closeText: '关闭',
+        	prevText: '<上月',
+        	nextText: '下月>',
+        	currentText: '今天',
+        	monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+        	'七月', '八月', '九月', '十月', '十一月', '十二月'],
+        	monthNamesShort: ['一', '二', '三', '四', '五', '六',
+        	'七', '八', '九', '十', '十一', '十二'],
+        	dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+        	dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+        	dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+        	weekHeader: '周',
+        	dateFormat: 'yy-mm-dd',
+        	firstDay: 1,
+        	isRTL: false,
+        	showMonthAfterYear: true,
+        	yearSuffix: '年'
+        	};
+        	$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        	});
+    </script>
 
 				<div class="gu-cover-bor"></div>
 				<c:forEach items="${list}" var="lists" varStatus="vs">

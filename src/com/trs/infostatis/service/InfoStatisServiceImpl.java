@@ -1,5 +1,6 @@
 package com.trs.infostatis.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,18 +26,10 @@ public class InfoStatisServiceImpl implements InfoStatisService {
 	public List<Info> queryDataStat() throws Exception {
 		// TODO Auto-generated method stub
 			List<Info> list =infoStatisMapper.selectDataStat();   
-			//if判断数据流通，前期测试
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			for (Info info : list) {
-				if (info!=null) {
-					System.out.println("===========info==============");
-					System.out.println(info.getFWCount());
-					System.out.println("=============================");
-				} else {
-					System.out.println("=======error info==============");
-					System.out.println("error:info is null!");
-					System.out.println("===============================");			
-				}
-			}			
+				info.setDaystr(formatter.format(info.getDOCCLICKDATE()));				
+			}
 		return list;
 	}
 	@Override
@@ -44,38 +37,22 @@ public class InfoStatisServiceImpl implements InfoStatisService {
 			throws Exception {
 		// TODO Auto-generated method stub
 		List<Info> list = infoStatisMapper.selectStartEndInfo(startTime, endTime);
-		for (Info info : list) {
-			//if判断数据流通，前期测试
-			if (info!=null) {
-				System.out.println("===========info==============");
-				System.out.println(info.getDOCTITLE());
-				System.out.println(info.getDOCCLICKCOUNT());
-				System.out.println(info.getDOCPUBTIME());
-				System.out.println("=============================");
-			} else {
-				System.out.println("=======error info==============");
-				System.out.println("error:info is null!");
-				System.out.println("===============================");			
-			}
-		}
 		return list;
 	}
 	@Override
 	public List<Info> queryPubCount() throws Exception {
 		// TODO Auto-generated method stub
-		List<Info> list =infoStatisMapper.selectPubCount();
-		//if判断数据流通，前期测试
+		List<Info> list =infoStatisMapper.selectPubCount();		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		for (Info info : list) {
-			if (info!=null) {
-				System.out.println("===========info==============");
-				System.out.println(info.getFBCount());
-				System.out.println("=============================");
-			} else {
-				System.out.println("=======error info==============");
-				System.out.println("error:info is null!");
-				System.out.println("===============================");			
+			info.setDaystr(formatter.format(info.getDOCPUBTIME()));
+		}
+		
+		for (Info info : list) {
+			if (info.getFBCount()==null) {
+				info.setFBCount(0);
 			}
-		}			
+		}
 	return list;
 	}
 }

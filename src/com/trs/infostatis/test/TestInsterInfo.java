@@ -15,7 +15,7 @@ public class TestInsterInfo {
 	InfoStatisMapper infoStatisMapper;
 	
 	@Test
-	public int testInsterInfo(Info info) throws Exception{
+	public int testInsterInfo() throws Exception{
 		Info in = new Info();
 		in.setSTATISTICSID(13);
 		in.setDOCID(13);
@@ -27,7 +27,7 @@ public class TestInsterInfo {
 		//现将String转成Date
 		date = sdf.parse(DOCCLICKDATE);
 		in.setDOCCLICKDATE(date);
-		int inf=infoStatisMapper.addInfoStatis(info);
+		int inf=infoStatisMapper.addInfoStatis(in);
 		if (inf>0) {
 			System.out.println("InsterInfo OK");
 		} else {
