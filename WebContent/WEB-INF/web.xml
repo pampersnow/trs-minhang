@@ -9,19 +9,7 @@
   <welcome-file-list>
     <welcome-file>/WEB-INF/jsp/infostatis.jsp</welcome-file>
   </welcome-file-list>
-  
-  <!-- 加载Spring容器配置 -->
-   <listener>
-    <listener-class>trs.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener>
-  
-  <!-- Spring容器加载所有的配置文件的路径 -->
-   <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-  </context-param>
-  
-  
+    
    <!-- 配置SpringMVC核心控制器,将所有的请求(除了Spring MVC中的静态资源请求)都交给Spring MVC -->
   <servlet>
     <servlet-name>spring</servlet-name>

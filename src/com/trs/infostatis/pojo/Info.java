@@ -1,7 +1,6 @@
 package com.trs.infostatis.pojo;
 import java.util.Date;
 import trs.springframework.format.annotation.DateTimeFormat;
-import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * @author JYB
  *	创建日期：2018-09-6  9:42
@@ -12,9 +11,7 @@ public class Info {
 		 private  int DOCID;		  //文档主键           
 		 private  String DOCTITLE;    //文档标题         
 		 private  int DOCCHANNEL;     //文档所属频道     
-		 @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 		 private  Date DOCPUBTIME;    //文档发布时间    
-		 @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8") 
 		 private  Date DOCCLICKDATE;  //按天统计点击量  
 		 private  int DOCCLICKCOUNT;  //日期点击次数     
 		 private Date startTime;      //开始时间

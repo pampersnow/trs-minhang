@@ -1,6 +1,5 @@
 package com.trs.infostatis;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.sql.SQLException;
 
@@ -9,12 +8,8 @@ import org.apache.ibatis.io.Resources;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
-import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
-import org.exolab.castor.xml.Unmarshaller;
 
-import com.trs.infra.config.domain.ConfigHelper;
-import com.trs.infra.config.persistent.PluginConfig;
 import com.trs.infra.persistent.db.ConnectPasswordEncrypter;
 
 public class TrsDataSource extends BasicDataSource {

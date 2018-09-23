@@ -4,12 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trs.infostatis.dao.InfoStatisMapper">
 	<insert id="addInfoStatis" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO xwcmstatistics (STATISTICSID,DOCID, DOCTITLE,
+		INSERT INTO xwcmstatistics (DOCID, DOCTITLE,
 		DOCCHANNEL,DOCPUBTIME,DOCCLICKDATE,DOCCLICKCOUNT) VALUES
-		(#{STATISTICSID}, #{DOCID},#{DOCTITLE}, #{DOCCHANNEL},#{DOCPUBTIME},
+		(#{DOCID},#{DOCTITLE}, #{DOCCHANNEL},#{DOCPUBTIME},
 		#{DOCCLICKDATE},1)
-		ON DUPLICATE KEY UPDATE STATISTICSID=#{STATISTICSID},DOCTITLE=#{DOCTITLE}, DOCCHANNEL=#{DOCCHANNEL},
-		DOCCLICKDATE=#{DOCCLICKDATE},DOCCLICKCOUNT=DOCCLICKCOUNT+1
+		ON DUPLICATE KEY UPDATE DOCCLICKCOUNT=DOCCLICKCOUNT+1
 	</insert>
 
 	<select id="selectDataStat" resultType="Info">		

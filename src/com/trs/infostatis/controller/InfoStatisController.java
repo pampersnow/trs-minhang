@@ -1,4 +1,6 @@
 package com.trs.infostatis.controller;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -6,8 +8,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import com.google.gson.Gson;
 import com.trs.infostatis.pojo.Info;
 import com.trs.infostatis.service.InfoStatisService;
 import com.trs.infostatis.service.addInfoStatisService;
@@ -19,7 +22,6 @@ import trs.springframework.web.bind.annotation.RequestBody;
 import trs.springframework.web.bind.annotation.RequestMapping;
 import trs.springframework.web.bind.annotation.RequestParam;
 import trs.springframework.web.bind.annotation.ResponseBody;
-import trs.springframework.web.servlet.ModelAndView;
 
 /**
  * @author JYB
@@ -48,14 +50,22 @@ public class InfoStatisController {
 	 * */
 	@RequestMapping(value="/doAddInfoCollect.html")	
 	@ResponseBody
-	 public  String  addInfoCollect(@RequestBody Info info ) throws Exception {		
-		//日志打印
-		logger.debug("=============addInfoCollect=======================");			
-		System.out.println();
+	public String addInfoCollect(@RequestBody String data) throws Exception {
+		// 日志打印
+		logger.debug("addInfoCollect:" + data);
+		JSONObject jsonObject = new JSONObject(data);
+
+		Info info = new Info();
+		info.setDOCID(jsonObject.getInt("DOCID"));
+		info.setDOCTITLE(jsonObject.getString("DOCTITLE"));
+		info.setDOCCHANNEL(jsonObject.getInt("DOCCHANNEL"));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		info.setDOCPUBTIME(sdf.parse(jsonObject.getString("DOCPUBTIME")));
+		info.setDOCCLICKDATE(new Date());
 		addInfoStatisService.addInfo(info);
-        System.out.println("OK");
-        return "redirect:infostatis";
-	 }
+		System.out.println("OK");
+		return "add success!";
+	}
 	/**
 	 * 数据统计-获取7天以内的访问量、发布量
 	 * */
@@ -83,25 +93,35 @@ public class InfoStatisController {
 			System.out.println("map:  key="+entry.getKey());
 			System.out.println("map:  value="+entry.getValue());
 		}
-		Gson gson = new Gson();
-		String json=gson.toJson(map);
-		logger.info("json:  "+json);
-		return json;	
+		JSONObject jsonObject = new JSONObject(map);
+		logger.info("json:  "+jsonObject);
+		return jsonObject;	
 	}
 	/**
 	 * 起始日期查询访问量前五的记录数
 	 * */
 	@RequestMapping(value="/doStartEndInfo.html")
-	public ModelAndView getStartEndInfo(@RequestParam(value="startTime",required=false)
+	@ResponseBody
+	public String getStartEndInfo(@RequestParam(value="startTime",required=false)
 										@DateTimeFormat(pattern="yyyy-MM-dd")Date startTime,
 										@RequestParam(value="endTime",required=false)
 										@DateTimeFormat(pattern="yyyy-MM-dd")Date endTime) throws Exception{
-		logger.debug("=================执行===getStartEndInfo===================");
-		ModelAndView mv = new ModelAndView();
+		logger.debug("startTime:"+startTime+";endTime:"+endTime);
 		List<Info> list = infoStatisService.queryStartEndInfo(startTime, endTime);
-		mv.addObject("list", list);
-		mv.setViewName("infostatis");
-		return mv;
+		if (list==null && list.size()==0) {
+			return "";
+		}
+		JSONArray jsonArray = new JSONArray();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		for (Info info : list) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("doctitle", info.getDOCTITLE());
+			jsonObject.put("docpubtime",sdf.format(info.getDOCPUBTIME()));
+			jsonObject.put("docclickcount", info.getDOCCLICKCOUNT());
+			jsonArray.put(jsonObject);
+		}
+		
+		return jsonArray.toString();
 	}	
 		//测试页面跳转
 		 @RequestMapping("3")  
