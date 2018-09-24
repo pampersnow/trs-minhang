@@ -2,10 +2,9 @@ package com.trs.infostatis.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-
-import com.trs.infostatis.pojo.Info;
 
 /**
  * @author JYB
@@ -17,17 +16,17 @@ public interface InfoStatisService {
 		 * 查询一周内访问量
 		 * @return   
 		 * */
-		List<Info> queryDataStat() throws Exception;
+		List<Map> queryDataStat() throws Exception;
 		
 		/**
 		 * 查询一周内发稿量       
 		 * @return 
 		 * */
-		List<Info> queryPubCount() throws Exception;
+		List<Map> queryPubCount() throws Exception;
 		
 		/**
 		 * 日期指定时间查询文章标题，访问次数
 		 * @return 
 		 * */
-		List<Info> queryStartEndInfo(@Param("startTime") Date startTime,@Param("endTime")Date endTime)throws Exception;
+		List<Map> queryStartEndInfo(@Param("startTime") Date startTime,@Param("endTime")Date endTime)throws Exception;
 }

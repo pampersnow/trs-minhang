@@ -166,35 +166,37 @@ $.ajax({
 		async : true, //同步
 		contentType : 'application/json;charset=utf-8',
 		success : function(data) {
-			if (data != null && data.length > 0) {
-				for (var i = 0; i < data.length; i++) {
-					FwCou.push(data[i].FWCount);
-					Fwtime.push(data[i].daystr);
-					FbCou.push(data[i].FBCount);
+			//console.info(data);
+			if (data != null) {
+				Fwtime = data.dateStrs;
+				//console.info(Fwtime);
+				FwCou = data.clickStrs;
+				FbCou = data.pubStrs;
+				if (option && typeof option === "object") {
+					//console.info(Fwtime);
+					myChart.setOption(option, true);
+					myChart.setOption({ //载入数据
+						xAxis : {
+							data : Fwtime
+						//填入X轴数据
+						},series : [ {
+							data : FwCou
+						}, {
+							data : FbCou
+						} ]
+					});
 				}
 			}
 		}
 	})
-if (option && typeof option === "object") {
-	myChart.setOption(option, true);
-	myChart.setOption({ //载入数据
-		xAxis : {
-			data : Fwtime
-		//填入X轴数据
-		},series : [ {
-			data : FwCou
-		}, {
-			data : FbCou
-		} ]
-	});
-}
+
 
 //搜索
 function sub(){		
 	//获取被选中的option标签
     var start = $("#start").val();
     var stop = $("#stop").val();
-	console.info("start:"+start);
+	//console.info("start:"+start);
 	$.ajax({
 		url: "${pageContext.request.contextPath }/doStartEndInfo.html",
 	    type: "GET",
@@ -205,10 +207,10 @@ function sub(){
 			$("#tab").html("");
 			if (data!=null && data.length>0){
 				var json = eval('(' + data + ')');
-				console.info($("#tab"));
+				//console.info($("#tab"));
 				for(var i=0;i<json.length;i++){
 					$("#tab").append("<li><div style='float:left'>"+json[i].doctitle+"("+json[i].docpubtime+")</div><div style='float:right'>"+json[i].docclickcount+"</div></li>");
-					console.info(json[i]);
+					//console.info(json[i]);
 				}
 			}
 		},

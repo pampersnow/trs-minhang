@@ -1,6 +1,7 @@
 package com.trs.infostatis.dao;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -13,13 +14,13 @@ import com.trs.infostatis.pojo.Info;
  */
 public interface InfoStatisMapper {	
 	//数据统计-查询周一至周日   每天访问量 
-	List<Info> selectDataStat() throws Exception;
+	List<Map> selectDataStat() throws Exception;
 	
 	//数据统计-查询周一至周日   每天发布量
-	List<Info> selectPubCount() throws Exception;
+	List<Map> selectPubCount() throws Exception;
 	
 	//查询指定起始时间内访问量前五的记录
-	List<Info> selectStartEndInfo(@Param("startTime") Date startTime,
+	List<Map> selectStartEndInfo(@Param("startTime") Date startTime,
 				@Param("endTime") Date endTime) throws Exception;
 	
 	//添加统计数据

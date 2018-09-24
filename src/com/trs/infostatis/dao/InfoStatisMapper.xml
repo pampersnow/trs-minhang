@@ -11,16 +11,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON DUPLICATE KEY UPDATE DOCCLICKCOUNT=DOCCLICKCOUNT+1
 	</insert>
 
-	<select id="selectDataStat" resultType="Info">		
-		SELECT SUM(DOCCLICKCOUNT)as FWCount,DOCCLICKDATE FROM xwcmstatistics  
+	<select id="selectDataStat" resultType="Map">		
+		SELECT SUM(DOCCLICKCOUNT)as clickCount,docclickdate FROM xwcmstatistics  
 		<where>
 			<![CDATA[DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= DATE(DOCCLICKDATE)]]>
 		</where>
 		GROUP BY DATE_FORMAT(DOCCLICKDATE,'%Y-%m-%d') ASC
 	</select>
 
-	<select id="selectPubCount" resultType="Info">		
-		SELECT  DOCPUBTIME, COUNT(*) AS FBCount
+	<select id="selectPubCount" resultType="Map">		
+		SELECT  docpubtime, COUNT(*) AS pubCount
 		FROM wcmdocument		
 		<where>
 			<![CDATA[DATE_SUB(CURDATE(),INTERVAL 7 DAY) <= DATE(DOCPUBTIME) ]]>
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		GROUP BY DATE_FORMAT(DOCPUBTIME,'%Y-%m-%d') ASC
 	</select>
 
-	<select id="selectStartEndInfo" resultType="Info" parameterType="Date">
+	<select id="selectStartEndInfo" resultType="Map" parameterType="Date">
 		SELECT DOCTITLE,sum(DOCCLICKCOUNT) DOCCLICKCOUNT,DOCPUBTIME FROM xwcmstatistics
 		<where>
 			<if test="startTime!=null and  startTime!=''">

@@ -3,6 +3,7 @@ package com.trs.infostatis.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -23,36 +24,25 @@ public class InfoStatisServiceImpl implements InfoStatisService {
 	private InfoStatisMapper infoStatisMapper;
 
 	@Override  
-	public List<Info> queryDataStat() throws Exception {
-		// TODO Auto-generated method stub
-			List<Info> list =infoStatisMapper.selectDataStat();   
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			for (Info info : list) {
-				info.setDaystr(formatter.format(info.getDOCCLICKDATE()));				
-			}
+	/**
+	 * 查询点击量
+	 */
+	public List<Map> queryDataStat() throws Exception {
+			List<Map> list =infoStatisMapper.selectDataStat();   
 		return list;
 	}
 	@Override
-	public List<Info> queryStartEndInfo(Date startTime, Date endTime)
+	public List<Map> queryStartEndInfo(Date startTime, Date endTime)
 			throws Exception {
-		// TODO Auto-generated method stub
-		List<Info> list = infoStatisMapper.selectStartEndInfo(startTime, endTime);
+		List<Map> list = infoStatisMapper.selectStartEndInfo(startTime, endTime);
 		return list;
 	}
 	@Override
-	public List<Info> queryPubCount() throws Exception {
-		// TODO Auto-generated method stub
-		List<Info> list =infoStatisMapper.selectPubCount();		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		for (Info info : list) {
-			info.setDaystr(formatter.format(info.getDOCPUBTIME()));
-		}
-		
-		for (Info info : list) {
-			if (info.getFBCount()==null) {
-				info.setFBCount(0);
-			}
-		}
-	return list;
+	/**
+	 * 查询发布量
+	 */
+	public List<Map> queryPubCount() throws Exception {
+		List<Map> list =infoStatisMapper.selectPubCount();		
+		return list;
 	}
 }

@@ -1,11 +1,13 @@
 package com.trs.infostatis.controller;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -71,31 +73,58 @@ public class InfoStatisController {
 	 * */
 	@RequestMapping(value="/doStatis.html")
 	@ResponseBody
-	public Object getStatis() throws Exception {		
+	public String getStatis() throws Exception {		
 		//日志打印
 		logger.debug("=================执行===getStatis===================");		
-		List<Info> list=infoStatisService.queryDataStat();			
-		List<Info> list2=infoStatisService.queryPubCount();
-		////以访问时间作为key 
-		Map<Object, Info> map = new HashMap<Object, Info>();
-		for (Info info : list) { map.put(info.getDaystr(), info); }
-		for (Info info : list2) {
-			if (map.containsKey(info.getDaystr())) {
-				//map.remove(info.getDaystr());//移除键值为发布时间相等的对象
-				//map.put(info.getFBCount());
-				map.containsValue(info.getFBCount());
-				continue;//停止并返回继续循环
-			} 
-			map.put(info.getDaystr(), info);
+		List<Map> listClick=infoStatisService.queryDataStat();			
+		List<Map> listPub=infoStatisService.queryPubCount();
+		//日期集合
+		Set<String> set = new TreeSet<String>(new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+				Date d1 = null;
+				Date d2 = null;
+				try {
+					d1 = sdf.parse(o1);
+					d2 = sdf.parse(o2);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return d1.compareTo(d2);
+			}
+		});
+		Map<String, String>  mapClick = new HashMap<String, String>();
+		for (Map mapClickTmp : listClick) {
+			String docclickdate = String.valueOf(mapClickTmp.get("docclickdate"));
+			set.add(docclickdate);
+			mapClick.put(docclickdate, String.valueOf(mapClickTmp.get("clickCount")));
 		}
-		 //循环map再对map中每个对象进行操作
-		for (Entry<Object, Info> entry : map.entrySet()) {
-			System.out.println("map:  key="+entry.getKey());
-			System.out.println("map:  value="+entry.getValue());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Map<String, String> mapPub = new HashMap<String, String>();
+		for (Map mapPubTmp : listPub) {
+			String docpubtime = sdf.format(mapPubTmp.get("docpubtime"));
+			set.add(docpubtime);
+			mapPub.put(docpubtime, String.valueOf(mapPubTmp.get("pubCount")));
 		}
-		JSONObject jsonObject = new JSONObject(map);
+		
+		Object[] dateObjs = set.toArray();
+		String[] dateStrs = new String[dateObjs.length] ;
+		String[] clickStrs = new String[dateObjs.length] ;
+		String[] pubStrs = new String[dateObjs.length] ;
+		for (int i = 0;i<dateObjs.length;i++) {
+			dateStrs[i]=String.valueOf(dateObjs[i]);
+			clickStrs[i]=mapClick.get(dateStrs[i])==null?"0":mapClick.get(dateStrs[i]);
+			pubStrs[i]=mapPub.get(dateStrs[i])==null?"0":mapPub.get(dateStrs[i]);
+		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("dateStrs", dateStrs);
+		jsonObject.put("clickStrs", clickStrs);
+		jsonObject.put("pubStrs", pubStrs);
 		logger.info("json:  "+jsonObject);
-		return jsonObject;	
+		return jsonObject.toString();	
 	}
 	/**
 	 * 起始日期查询访问量前五的记录数
@@ -107,17 +136,17 @@ public class InfoStatisController {
 										@RequestParam(value="endTime",required=false)
 										@DateTimeFormat(pattern="yyyy-MM-dd")Date endTime) throws Exception{
 		logger.debug("startTime:"+startTime+";endTime:"+endTime);
-		List<Info> list = infoStatisService.queryStartEndInfo(startTime, endTime);
+		List<Map> list = infoStatisService.queryStartEndInfo(startTime, endTime);
 		if (list==null && list.size()==0) {
 			return "";
 		}
 		JSONArray jsonArray = new JSONArray();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		for (Info info : list) {
+		for (Map info : list) {
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("doctitle", info.getDOCTITLE());
-			jsonObject.put("docpubtime",sdf.format(info.getDOCPUBTIME()));
-			jsonObject.put("docclickcount", info.getDOCCLICKCOUNT());
+			jsonObject.put("doctitle", info.get("DOCTITLE"));
+			jsonObject.put("docpubtime",sdf.format(info.get("DOCPUBTIME")));
+			jsonObject.put("docclickcount", info.get("DOCCLICKCOUNT"));
 			jsonArray.put(jsonObject);
 		}
 		
