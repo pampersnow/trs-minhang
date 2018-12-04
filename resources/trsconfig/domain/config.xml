@@ -30,8 +30,8 @@
 				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt" 
 				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
 			<DBConnect name="MySQL" className="com.trs.infra.util.database.MysqlDB" 
-			dowithClob="false" connectionURL="jdbc:mysql://127.0.0.1:3306/TRSWCMV7?characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull" 
-				connectionUser="trs" connectionPassword="EncrypteddHJzd2Nt"
+			dowithClob="false" connectionURL="jdbc:mysql://127.0.0.1:3306/trsinfostatis?characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull" 
+				connectionUser="root" connectionPassword="1234"
 				initConnects="5" maxConnects="20" waitIfBusy="true" cacheScheme="DYNAMIC_GROW" traceAssign="true" timeToLiveOverUse="2000"/>
 			<DBConnect name="KingBase" className="com.trs.infra.util.database.KingBaseDB" 
 				dowithClob="false" 

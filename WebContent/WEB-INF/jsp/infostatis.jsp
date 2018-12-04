@@ -45,10 +45,6 @@
 							<input id="start" class="Wdate"	placeholder="请选择日期" type="text" name="startTime"
 								   onclick="WdatePicker()" />&nbsp;至&nbsp;
                             <input type="text" id="stop" class="dp">
-							<!-- <input id="start" class="Wdate" placeholder="请选择日期" type="text" name="startTime"
-								   onclick="WdatePicker()" />&nbsp;至&nbsp;
-							<input id="stop" class="Wdate" placeholder="请选择日期" type="text" name="endTime"
-								onclick="WdatePicker()" /> -->
 						    <input type="button" value="搜索" class="button" onclick="sub()">
 						</h3>
 					</form>
@@ -169,7 +165,7 @@ $.ajax({
 			//console.info(data);
 			if (data != null) {
 				Fwtime = data.dateStrs;
-				//console.info(Fwtime);
+			    console.info(Fwtime);
 				FwCou = data.clickStrs;
 				FbCou = data.pubStrs;
 				if (option && typeof option === "object") {

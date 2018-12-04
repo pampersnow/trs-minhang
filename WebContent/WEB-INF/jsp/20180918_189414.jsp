@@ -15,11 +15,11 @@
 			/*文档id*/
 			var  docid = 798;
 			/* 文档标题 */
-			var doctitle ="ex5c6tvbhunjimkonjubh";		
+			var doctitle ="关于中国国际航空股份有限公司申请调整北京...";		
 			/* 文档文档所在栏目 */
 			var docchannel=9;					
 			/* 文档发布时间 */
-			var docpubtime="2018-09-17 13:14:13";		
+			var docpubtime="2018-09-24 13:14:13";		
 	
 			statistical(docid,doctitle,docchannel,docpubtime);
 		</script>		

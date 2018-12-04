@@ -29,9 +29,9 @@
 		destroy-method="close" scope="singleton">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://127.0.0.1:3306/trswcmv7?useUnicode=true&amp;characterEncoding=utf-8" />
+			value="jdbc:mysql://127.0.0.1:3306/trsinfostatis?useUnicode=true&amp;characterEncoding=utf-8" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="1234" />
 		<property name="initialSize" value="45" />
 		<property name="maxActive" value="50" />
 		<property name="maxIdle" value="5" />
